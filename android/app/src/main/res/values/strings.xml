@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">StudentBulletin</string>
-    <string name="facebook_app_id">Facebook App ID</string>
+    <string name="facebook_app_id">596056784136527</string>
+    <string name="fb_login_protocol_scheme">fb596056784136527</string>
 </resources>
