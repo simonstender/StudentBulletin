@@ -21,8 +21,9 @@ export default class Login extends Component {
     super(props);
     this._isMounted = false;
     this.state = {
-      result: "",
+      loggedIn: false,
       name: "",
+      id: "",
       email: "",
     }
   }
@@ -37,32 +38,15 @@ export default class Login extends Component {
     this._isMounted = false;
   }
 
-  async loginFacebook(){
-    try {
-      let result = await LoginManager.logInWithReadPermissions(['public_profile'])
-      if (result.isCancelled) {
-        alert('Login was cancelled');
-      } else {
-        alert("Login was successful with permissions: "
-          + result.grantedPermissions.toString());
-      }
-    } catch (e) {
-      alert('Login failed with error:'+e)
-    }
-  }
-
   initUser(token) {
     fetch('https://graph.facebook.com/v2.5/me?fields=email,name,friends&access_token=' + token)
     .then((response) => response.json())
     .then((json) => {
       this.state.name = json.name
-      user.id = json.id
-      user.user_friends = json.friends
+      this.state.id = json.id
       this.state.email = json.email
-      user.username = json.name
-      user.loading = false
-      user.loggedIn = true
-      user.avatar = setAvatar(json.id)
+      this.state.loggedIn = true
+      this.props.navigation.navigate("BulletinScreen", { data: {name: this.state.name, id: this.state.id, email: this.state.email}});
     })
     .catch(() => {
       reject('ERROR GETTING DATA FROM FACEBOOK')
@@ -72,32 +56,32 @@ export default class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button
-        style={styles.button}
-        title="Log in with facebook"
-        onPress={() => alert("Name:"+this.state.name+"\nEmail:"+this.state.email)}
-        >
-        <Text style={styles.loginText}>Log in yo</Text>
-        </Button>
-        <LoginButton
-          publishPermissions={["publish_actions"]}
-          readPermissions={["public_profile"]}
-          onLoginFinished={
-            (error, result) => {
-              if (error) {
-                alert("Login failed with error: " + error.message);
-              } else if (result.isCancelled) {
-                alert("Login was cancelled");
-              } else {
-                alert("Login was successful with permissions: " + result.grantedPermissions)
-                AccessToken.getCurrentAccessToken().then((data) => {
-                  const { accessToken } = data
-                  this.initUser(accessToken)
-                })
+        <Text style={styles.text}>Student Bulletin</Text>
+          <LoginButton
+            style={styles.loginButton}
+            publishPermissions={["publish_actions"]}
+            readPermissions={["id","name","email"]}
+            onLoginFinished={
+              (error, result) => {
+                if (error) {
+                  alert("Login failed with error: " + error.message);
+                } else if (result.isCancelled) {
+                  alert("Login was cancelled");
+                } else {
+                  AccessToken.getCurrentAccessToken().then((data) => {
+                    const { accessToken } = data
+                    this.initUser(accessToken)
+                  })
+                }
               }
             }
-          }
-          onLogoutFinished={() => alert("User logged out")}/>
+            onLogoutFinished={() => alert("User logged out")}/>
+            <Button
+            style={styles.button}
+            title="Switch"
+            onPress={() => {this.props.navigation.navigate("BulletinScreen", { data: {name: this.state.name, id: this.state.id, email: this.state.email}})}}
+            >
+            </Button>
       </View>
     );
   }
@@ -115,12 +99,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
-  button: {
-    backgroundColor: "white",
-    width: 25,
-    height: 25,
+  loginButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 150,
+    height: 28,
+    top: 60,
   },
-  loginText: {
-
+  text: {
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#7DF0E8",
+    fontSize: 24,
+    bottom: 150
   }
 });
