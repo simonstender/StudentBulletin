@@ -31,7 +31,7 @@ export default class Bulletin extends Component {
     super(props);
     this._isMounted = false;
     this.state = {
-      profile: {name: this.props.navigation.state.params.data.name, id: this.props.navigation.state.params.data.id, email: this.props.navigation.state.params.data.email},
+      profile: {name: "Simon Stender"/*this.props.navigation.state.params.data.name*/, id: this.props.navigation.state.params.data.id, email: this.props.navigation.state.params.data.email, school: "BTH"},
       isFetching: false
     }
   }
@@ -48,17 +48,45 @@ export default class Bulletin extends Component {
     this._isMounted = false;
   }
 
+  fetchDB(){
+    fetch("http://localhost:8529/_db/StudentBulletinDB/init/users", {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        _key: this.state.profile.id,
+        name: this.state.profile.name,
+        email: this.state.profile.email,
+        school: this.state.profile.school
+      })
+    });
+  }
+
+  getDB(){
+    fetch("http://localhost:8529/_db/StudentBulletinDB/init/users", {
+      method: "GET"
+      })
+      .then((response) => response.json())
+      .then((response) => {
+        alert(response);
+      })
+  }
+
   render() {
     return (
       <View style={styles.container}>
-      <Button
-      style={styles.button}
-      title="Check information"
-      onPress={() => alert("Profile:"+this.state.profile.name)}
-      >
-      <Text style={styles.loginText}>Log in yo</Text>
-      </Button>
-      <Text style={styles.itemText}>{this.state.profile.name}, {this.state.profile.email}</Text>
+        <Button
+        style={styles.button}
+        title="Check information"
+        onPress={() => this.getDB()}
+        >
+        <Text style={styles.loginText}>Log in yo</Text>
+        </Button>
+      <View style={styles.bottomContainer}>
+        <Text style={styles.itemText}>{this.state.profile.name}({this.state.profile.school})</Text>
+      </View>
       </View>
     );
   }
@@ -67,13 +95,23 @@ export default class Bulletin extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: '#282C34',
+  },
+  bottomContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "#7DF0E8",
+    height: 40,
   },
   welcome: {
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: "center",
     margin: 10,
   },
   button: {
@@ -81,16 +119,8 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
   },
-  profile: {
-    width: DEVICE_WIDTH - 40,
-    bottom: 50,
-    position: "absolute",
-    borderColor: "#FFFFFF",
-    borderRightWidth: 5,
-    left: 95,
-  },
   itemText: {
-    color: "#FFFFFF",
+    color: "#000000",
     fontSize: 18,
   }
 });

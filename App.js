@@ -43,31 +43,6 @@ const AppDrawerNavigator = createDrawerNavigator({
     }
   });
 
-const BottomTabNavigator = createBottomTabNavigator({
-  Home: Bulletin,
-},
-{
-  defaultNavigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state;
-        let IconComponent = Ionicons;
-        let iconName;
-        if (routeName === 'Home') {
-          iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-        } else if (routeName === 'Settings') {
-          iconName = `ios-checkmark-circle${focused ? '' : '-outline'}`;
-        }
-        return <IconComponent name={iconName} size={25} color={tintColor} />;
-      },
-    }),
-    tabBarOptions: {
-      activeTintColor: '#42f44b',
-      inactiveTintColor: 'gray',
-    }
-})
-
 const App = createAppContainer(AppDrawerNavigator);
-
 export default App;
-
 AppRegistry.registerComponent("App", () => App);
