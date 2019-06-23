@@ -5,7 +5,6 @@ import Dimensions from 'Dimensions';
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
-
 export default class Bulletin extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -31,16 +30,13 @@ export default class Bulletin extends Component {
     super(props);
     this._isMounted = false;
     this.state = {
-      profile: {name: "Simon Stender"/*this.props.navigation.state.params.data.name*/, id: this.props.navigation.state.params.data.id, email: this.props.navigation.state.params.data.email, school: "BTH"},
-      isFetching: false
+      profile: {name: this.props.navigation.state.params.data.name, id: this.props.navigation.state.params.data.id, email: this.props.navigation.state.params.data.email, school: this.props.navigation.state.params.data.school},
+      isFetching: false,
+      responseMsg: "",
     }
   }
 
-  onRefresh = () => {
-    //this.setState({profile: {name: this.props.navigation.state.params.data.name, id: this.props.navigation.state.params.data.id, email: this.props.navigation.state.params.data.email, school: "bth"}})
-  }
-
-  componenDidMount(){
+  componentDidMount(){
     this._isMounted = true;
   }
 
@@ -49,7 +45,8 @@ export default class Bulletin extends Component {
   }
 
   fetchDB(){
-    fetch("http://localhost:8529/_db/StudentBulletinDB/init/users", {
+    /*
+    fetch("http://10.0.2.2:8529/_db/StudentBulletinDB/init/users", {
       method: "POST",
       headers: {
         "Accept": "application/json",
@@ -61,29 +58,16 @@ export default class Bulletin extends Component {
         email: this.state.profile.email,
         school: this.state.profile.school
       })
-    });
-  }
-
-  getDB(){
-    fetch("http://localhost:8529/_db/StudentBulletinDB/init/users", {
-      method: "GET"
-      })
-      .then((response) => response.json())
-      .then((response) => {
-        alert(response);
-      })
+    })
+    .then((response) => {
+      this.state.responseMsg = JSON.stringify(response);
+    })
+    */
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Button
-        style={styles.button}
-        title="Check information"
-        onPress={() => this.getDB()}
-        >
-        <Text style={styles.loginText}>Log in yo</Text>
-        </Button>
       <View style={styles.bottomContainer}>
         <Text style={styles.itemText}>{this.state.profile.name}({this.state.profile.school})</Text>
       </View>

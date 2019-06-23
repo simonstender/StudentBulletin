@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button} from 'react-native';
+import {Platform, StyleSheet, Text, View, Button, Alert} from 'react-native';
 import {createDrawerNavigator, createStackNavigator, createAppContainer} from 'react-navigation';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager, Profile } from 'react-native-fbsdk';
 
@@ -25,28 +25,67 @@ export default class Login extends Component {
       name: "",
       id: "",
       email: "",
+      school: "",
     }
   }
 
   componenDidMount(){
     this._isMounted = true;
-    console.log("BAJS");
   }
 
   componenDidUnmount(){
-    LoginManager.logOut();
     this._isMounted = false;
   }
 
+  createUser(id, name, email, school){
+    alert(id+name+email+school)
+    fetch("http://10.0.2.2:8529/_db/StudentBulletinDB/login/users", {
+      method: "POST",
+      headers: {
+     'Accept': 'application/json',
+     'Content-Type': 'application/json',
+     },
+     body: JSON.stringify({
+       _key: id,
+       name: name,
+       email: email,
+       school: school
+     })
+    })
+    .then(this.props.navigation.navigate("BulletinScreen", { data: {name: name, id: id, email: email, school: school}}))
+  }
   initUser(token) {
     fetch('https://graph.facebook.com/v2.5/me?fields=email,name,friends&access_token=' + token)
     .then((response) => response.json())
     .then((json) => {
-      this.state.name = json.name
-      this.state.id = json.id
-      this.state.email = json.email
+      const name = json.name
+      const id = json.id
+      const email = json.email
+      var school = "";
       this.state.loggedIn = true
-      this.props.navigation.navigate("BulletinScreen", { data: {name: this.state.name, id: this.state.id, email: this.state.email}});
+      fetch("http://10.0.2.2:8529/_db/StudentBulletinDB/login/users/"+id, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        })
+        .then((response) => {
+          if (JSON.stringify(response.status) === "404") {
+            Alert.alert(
+              'First time on the app',
+              'Choose which school you go to',
+              [
+                {text: 'Blekinge Tekniska Högskola', onPress: () => (school = "BTH", this.createUser(id, name, email, school))},
+                {text: 'Chalmers', onPress: () => (school = "Chalmers", this.createUser(id, name, email, school))},
+              ],
+              {cancelable: false},
+            );
+          } else {
+            alert(JSON.stringify(response));
+            //this.props.navigation.navigate("BulletinScreen", { data: {name: this.state.name, id: this.state.id, email: this.state.email}});
+          }
+        })
     })
     .catch(() => {
       reject('ERROR GETTING DATA FROM FACEBOOK')
@@ -76,12 +115,6 @@ export default class Login extends Component {
               }
             }
             onLogoutFinished={() => alert("User logged out")}/>
-            <Button
-            style={styles.button}
-            title="Switch"
-            onPress={() => {this.props.navigation.navigate("BulletinScreen", { data: {name: this.state.name, id: this.state.id, email: this.state.email}})}}
-            >
-            </Button>
       </View>
     );
   }
@@ -112,5 +145,8 @@ const styles = StyleSheet.create({
     color: "#7DF0E8",
     fontSize: 24,
     bottom: 150
+  },
+  choice: {
+    top: 50,
   }
 });
