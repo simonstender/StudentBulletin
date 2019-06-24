@@ -38,8 +38,7 @@ export default class Login extends Component {
   }
 
   createUser(id, name, email, school){
-    alert(id+name+email+school)
-    fetch("http://10.0.2.2:8529/_db/StudentBulletinDB/login/users", {
+    fetch("http://90.224.173.179:8529/_db/StudentBulletinDB/login/users", {
       method: "POST",
       headers: {
      'Accept': 'application/json',
@@ -54,6 +53,7 @@ export default class Login extends Component {
     })
     .then(this.props.navigation.navigate("BulletinScreen", { data: {name: name, id: id, email: email, school: school}}))
   }
+
   initUser(token) {
     fetch('https://graph.facebook.com/v2.5/me?fields=email,name,friends&access_token=' + token)
     .then((response) => response.json())
@@ -63,15 +63,16 @@ export default class Login extends Component {
       const email = json.email
       var school = "";
       this.state.loggedIn = true
-      fetch("http://10.0.2.2:8529/_db/StudentBulletinDB/login/users/"+id, {
+      fetch("http://90.224.173.179:8529/_db/StudentBulletinDB/login/users/"+id, {
         method: "GET",
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json",
         },
         })
-        .then((response) => {
-          if (JSON.stringify(response.status) === "404") {
+        .then((response) => response.json())
+        .then((data) => {
+          if (JSON.stringify(data.code) === "404") {
             Alert.alert(
               'First time on the app',
               'Choose which school you go to',
@@ -82,8 +83,7 @@ export default class Login extends Component {
               {cancelable: false},
             );
           } else {
-            alert(JSON.stringify(response));
-            //this.props.navigation.navigate("BulletinScreen", { data: {name: this.state.name, id: this.state.id, email: this.state.email}});
+            this.props.navigation.navigate("BulletinScreen", { data: {name: data.name, id: data.id, email: data.email, school: data.school}});
           }
         })
     })

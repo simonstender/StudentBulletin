@@ -44,27 +44,6 @@ export default class Bulletin extends Component {
     this._isMounted = false;
   }
 
-  fetchDB(){
-    /*
-    fetch("http://10.0.2.2:8529/_db/StudentBulletinDB/init/users", {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        _key: this.state.profile.id,
-        name: this.state.profile.name,
-        email: this.state.profile.email,
-        school: this.state.profile.school
-      })
-    })
-    .then((response) => {
-      this.state.responseMsg = JSON.stringify(response);
-    })
-    */
-  }
-
   render() {
     return (
       <View style={styles.container}>
