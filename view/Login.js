@@ -1,22 +1,9 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button, Alert} from 'react-native';
-import {createDrawerNavigator, createStackNavigator, createAppContainer} from 'react-navigation';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager, Profile } from 'react-native-fbsdk';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class Login extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerLeft: null,
-      drawerLockMode: "locked-closed",
-      gesturesEnabled: false,
-      headerStyle: {
-        backgroundColor: "#282C34",
-        borderBottomWidth: 0,
-        elevation: 0
-      }
-    };
-  };
-
   constructor(props){
     super(props);
     this._isMounted = false;
@@ -51,7 +38,7 @@ export default class Login extends Component {
        school: school
      })
     })
-    .then(this.props.navigation.navigate("BulletinScreen", { data: {name: name, id: id, email: email, school: school}}))
+    .then(this.props.navigation.navigate("Bulletin", { data: {name: name, id: id, email: email, school: school}}))
   }
 
   initUser(token) {
@@ -83,7 +70,7 @@ export default class Login extends Component {
               {cancelable: false},
             );
           } else {
-            this.props.navigation.navigate("BulletinScreen", { data: {name: data.name, id: data.id, email: data.email, school: data.school}});
+            this.props.navigation.navigate("Bulletin", { data: {name: data.name, id: data.id, email: data.email, school: data.school}});
           }
         })
     })
@@ -95,7 +82,7 @@ export default class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Student Bulletin</Text>
+        <Text style={styles.text}><Icon name="rocket" size={30} color="#900" />Student Bulletin</Text>
           <LoginButton
             style={styles.loginButton}
             publishPermissions={["publish_actions"]}

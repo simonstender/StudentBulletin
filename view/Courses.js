@@ -5,17 +5,13 @@ import Dimensions from 'Dimensions';
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
-export default class Bulletin extends Component {
+export default class Courses extends Component {
+
   constructor(props){
     super(props);
     this._isMounted = false;
     this.state = {
-      profile: {name: this.props.navigation.state.params.data.name,
-                id: this.props.navigation.state.params.data.id,
-                email: this.props.navigation.state.params.data.email,
-                school: this.props.navigation.state.params.data.school},
-      isFetching: false,
-      responseMsg: "",
+
     }
   }
 
@@ -30,9 +26,7 @@ export default class Bulletin extends Component {
   render() {
     return (
       <View style={styles.container}>
-      <View style={styles.bottomContainer}>
-        <Text style={styles.itemText}>{this.state.profile.name}({this.state.profile.school})</Text>
-      </View>
+        <Text>Courses</Text>
       </View>
     );
   }
