@@ -38,7 +38,7 @@ export default class Login extends Component {
        school: school
      })
     })
-    .then(this.props.navigation.navigate("Bulletin", { data: {name: name, id: id, email: email, school: school}}))
+    .then(this.props.navigation.navigate("Courses", { data: {name: name, id: id, email: email, school: school}}))
   }
 
   initUser(token) {
@@ -70,7 +70,7 @@ export default class Login extends Component {
               {cancelable: false},
             );
           } else {
-            this.props.navigation.navigate("Bulletin", { data: {name: data.name, id: data.id, email: data.email, school: data.school}});
+            this.props.navigation.navigate("Courses", { data: {name: data.name, id: data.id, email: data.email, school: data.school}});
           }
         })
     })
@@ -82,7 +82,8 @@ export default class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}><Icon name="rocket" size={30} color="#900" />Student Bulletin</Text>
+        <Text style={styles.text}>Student Bulletin</Text>
+        <Icon style={styles.icon} name="calendar" size={60} color="#7DF0E8" />
           <LoginButton
             style={styles.loginButton}
             publishPermissions={["publish_actions"]}
@@ -131,9 +132,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     color: "#7DF0E8",
     fontSize: 24,
-    bottom: 150
+    bottom: 150,
   },
-  choice: {
-    top: 50,
+  icon: {
+    bottom: 100,
+    position: "relative"
   }
 });

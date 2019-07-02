@@ -1,17 +1,22 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button, TouchableOpacity, Image, FlatList} from 'react-native';
 import Dimensions from 'Dimensions';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 export default class Courses extends Component {
-
   constructor(props){
     super(props);
     this._isMounted = false;
     this.state = {
-
+      profile: {name: this.props.navigation.state.params.data.name,
+                id: this.props.navigation.state.params.data.id,
+                email: this.props.navigation.state.params.data.email,
+                school: this.props.navigation.state.params.data.school},
+      isFetching: false,
+      responseMsg: "",
     }
   }
 
@@ -26,7 +31,7 @@ export default class Courses extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Courses</Text>
+        <Text style={styles.itemText}>Yo</Text>
       </View>
     );
   }
@@ -62,5 +67,8 @@ const styles = StyleSheet.create({
   itemText: {
     color: "#000000",
     fontSize: 18,
+  },
+  icon: {
+    paddingLeft: 12,
   }
 });
