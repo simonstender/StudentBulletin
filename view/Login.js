@@ -25,7 +25,7 @@ export default class Login extends Component {
   }
 
   createUser(id, name, email, school){
-    fetch("http://90.224.173.179:8529/_db/StudentBulletinDB/login/users", {
+    fetch("http://83.191.175.55:8529/_db/StudentBulletinDB/login/users", {
       method: "POST",
       headers: {
      'Accept': 'application/json',
@@ -50,7 +50,7 @@ export default class Login extends Component {
       const email = json.email
       var school = "";
       this.state.loggedIn = true
-      fetch("http://90.224.173.179:8529/_db/StudentBulletinDB/login/users/"+id, {
+      fetch("http://83.191.175.55:8529/_db/StudentBulletinDB/login/users/"+id, {
         method: "GET",
         headers: {
           "Accept": "application/json",
@@ -70,7 +70,7 @@ export default class Login extends Component {
               {cancelable: false},
             );
           } else {
-            this.props.navigation.navigate("Courses", { data: {name: data.name, id: data.id, email: data.email, school: data.school}});
+            this.props.navigation.navigate("Courses", {data:{name:data.name,id:data.id,email:data.email,school:data.school}});
           }
         })
     })

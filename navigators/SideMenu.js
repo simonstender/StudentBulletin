@@ -28,7 +28,7 @@ export default class SideMenu extends Component {
     fetch('https://graph.facebook.com/v2.5/me?fields=email,name,friends&access_token=' + token)
     .then((response) => response.json())
     .then((response) => {
-      fetch("http://192.168.1.25:8529/_db/StudentBulletinDB/login/users/"+response.id)
+      fetch("http://83.191.175.55:8529/_db/StudentBulletinDB/login/users/"+response.id)
       .then((response) => response.json())
       .then((response) => {
         this.setState({
@@ -53,18 +53,22 @@ export default class SideMenu extends Component {
 
   render() {
     return (
-      <View style={styles.topContainer}>
-        <TouchableOpacity
-        onPress={() => this.props.navigation.closeDrawer()}>
-        <Icon style={styles.arrowIcon} name="arrow-left" size={50} color="#7DF0E8" />
-        </TouchableOpacity>
       <View style={styles.container}>
+      <TouchableOpacity
+      style={styles.arrowIcon}
+      onPress={() => this.props.navigation.closeDrawer()}>
+      <Icon name="arrow-left" size={40} color="#7DF0E8" />
+      </TouchableOpacity>
         <Text style={styles.itemText}>SideBar</Text>
         <View style={styles.bottomContainer}>
+        <TouchableOpacity
+        style={styles.settingsIcon}
+        onPress={() => this.props.navigation.navigate("SettingsScreen", {data:{id:this.state.profile.id,name:this.state.profile.name,email:this.state.profile.email,school:this.state.profile.school}})}>
+        <Icon name="cog" size={40} color="black" />
+        </TouchableOpacity>
           <Text style={styles.itemText}>{this.state.profile.name}({this.state.profile.school})</Text>
           </View>
         </View>
-      </View>
     );
   }
 }
@@ -80,19 +84,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: 'absolute',
+    flexDirection: "row-reverse",
     left: 0,
     right: 0,
     bottom: 0,
     backgroundColor: "#7DF0E8",
     height: 40,
   },
-  topContainer: {
-    flex: 2,
-    backgroundColor: "#282C34",
-  },
   arrowIcon: {
-    position: "relative",
-    left: 230
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
+    bottom: 530,
+    left: 242
+  },
+  settingsIcon: {
+    position: "absolute",
+    left: 242
   },
   welcome: {
     fontSize: 20,

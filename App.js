@@ -8,6 +8,7 @@ import Bulletin from "./view/Bulletin"
 import Courses from "./view/Courses"
 import Events from "./view/Events"
 import SideMenu from "./navigators/SideMenu"
+import Settings from "./view/Settings"
 
 const BulletinTabNavigator = createBottomTabNavigator({
   Courses,
@@ -51,7 +52,7 @@ const AppStackNavigator = createStackNavigator({
 })
 
 const AppDrawerNavigator = createDrawerNavigator({
-  Stäng: AppStackNavigator,
+  AppStackNavigator: AppStackNavigator,
 },
 {
   drawerLockMode: "locked-closed",
@@ -68,7 +69,8 @@ const AppSwitchNavigator = createSwitchNavigator({
   LoginScreen: Login,
   BulletinScreen: AppDrawerNavigator,
   CoursesScreen: Courses,
-  EventsScreen: Events
+  EventsScreen: Events,
+  SettingsScreen: Settings,
 })
 
 const App = createAppContainer(AppSwitchNavigator);
