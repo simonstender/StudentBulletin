@@ -11,7 +11,6 @@ export default class Login extends Component {
       loggedIn: false,
       name: "",
       id: "",
-      email: "",
       school: "",
     }
   }
@@ -24,7 +23,7 @@ export default class Login extends Component {
     this._isMounted = false;
   }
 
-  createUser(id, name, email, school){
+  createUser(id, name, school){
     fetch("http://83.191.175.55:8529/_db/StudentBulletinDB/login/users", {
       method: "POST",
       headers: {
@@ -34,20 +33,18 @@ export default class Login extends Component {
      body: JSON.stringify({
        _key: id,
        name: name,
-       email: email,
        school: school
      })
     })
-    .then(this.props.navigation.navigate("Courses", { data: {name: name, id: id, email: email, school: school}}))
+    .then(this.props.navigation.navigate("Courses", {data:{name:name,id:id,school:school}}))
   }
 
   initUser(token) {
-    fetch('https://graph.facebook.com/v2.5/me?fields=email,name,friends&access_token=' + token)
+    fetch('https://graph.facebook.com/v2.5/me?fields=name,id&access_token=' + token)
     .then((response) => response.json())
     .then((json) => {
       const name = json.name
       const id = json.id
-      const email = json.email
       var school = "";
       this.state.loggedIn = true
       fetch("http://83.191.175.55:8529/_db/StudentBulletinDB/login/users/"+id, {
@@ -64,13 +61,13 @@ export default class Login extends Component {
               'First time on the app',
               'Choose which school you go to',
               [
-                {text: 'Blekinge Tekniska Högskola', onPress: () => (school = "BTH", this.createUser(id, name, email, school))},
-                {text: 'Chalmers', onPress: () => (school = "Chalmers", this.createUser(id, name, email, school))},
+                {text: 'Blekinge Tekniska Högskola', onPress: () => (school = "BTH", this.createUser(id, name, school))},
+                {text: 'Chalmers', onPress: () => (school = "Chalmers", this.createUser(id, name, school))},
               ],
               {cancelable: false},
             );
           } else {
-            this.props.navigation.navigate("Courses", {data:{name:data.name,id:data.id,email:data.email,school:data.school}});
+            this.props.navigation.navigate("Courses", {data:{name:data.name,id:data.id,school:data.school}});
           }
         })
     })
@@ -87,7 +84,7 @@ export default class Login extends Component {
           <LoginButton
             style={styles.loginButton}
             publishPermissions={["publish_actions"]}
-            readPermissions={["id","name","email"]}
+            readPermissions={["public_profile"]}
             onLoginFinished={
               (error, result) => {
                 if (error) {

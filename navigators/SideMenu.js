@@ -34,7 +34,6 @@ export default class SideMenu extends Component {
         this.setState({
           profile:{id: response._key,
                    name: response.name,
-                   email: response.email,
                    school: response.school}
         })
       })
@@ -63,7 +62,7 @@ export default class SideMenu extends Component {
         <View style={styles.bottomContainer}>
         <TouchableOpacity
         style={styles.settingsIcon}
-        onPress={() => this.props.navigation.navigate("SettingsScreen", {data:{id:this.state.profile.id,name:this.state.profile.name,email:this.state.profile.email,school:this.state.profile.school}})}>
+        onPress={() => this.props.navigation.navigate("SettingScreen", {data:{id:this.state.profile.id,name:this.state.profile.name,school:this.state.profile.school}})}>
         <Icon name="cog" size={40} color="black" />
         </TouchableOpacity>
           <Text style={styles.itemText}>{this.state.profile.name}({this.state.profile.school})</Text>

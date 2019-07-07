@@ -13,7 +13,6 @@ export default class Courses extends Component {
     this.state = {
       profile: {name: this.props.navigation.state.params.data.name,
                 id: this.props.navigation.state.params.data.id,
-                email: this.props.navigation.state.params.data.email,
                 school: this.props.navigation.state.params.data.school},
       isFetching: false,
       responseMsg: "",

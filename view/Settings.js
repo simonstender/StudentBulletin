@@ -13,7 +13,6 @@ export default class Settings extends Component {
     this.state = {
       profile: {name: this.props.navigation.state.params.data.name,
                 id: this.props.navigation.state.params.data.id,
-                email: this.props.navigation.state.params.data.email,
                 school: this.props.navigation.state.params.data.school},
     }
   }
@@ -30,10 +29,6 @@ export default class Settings extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.itemText}>Settings Screen</Text>
-        <Button
-        title="Go back"
-        onPress={() => this.props.navigation.navigate("Courses",{data:{id:this.state.profile.id,name:this.state.profile.name,email:this.state.profile.email,school:this.state.profile.school}})}
-        />
       </View>
     );
   }
