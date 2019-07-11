@@ -114,7 +114,6 @@ const BulletinTabNavigator = createBottomTabNavigator({
 
 const AppStackNavigator = createStackNavigator({
   BulletinTabNavigator:BulletinTabNavigator,
-  LoginScreen: Login,
   SettingScreen: {
     screen: SettingStack,
     navigationOptions: ({navigation}) => {
@@ -153,8 +152,6 @@ const AppDrawerNavigator = createDrawerNavigator({
 const AppSwitchNavigator = createSwitchNavigator({
   LoginScreen: Login,
   BulletinScreen: AppDrawerNavigator,
-  CoursesScreen: Courses,
-  EventsScreen: Events
 })
 
 const App = createAppContainer(AppSwitchNavigator);

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button, Alert} from 'react-native';
-import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager, Profile } from 'react-native-fbsdk';
+import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager, Profile, } from 'react-native-fbsdk';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class Login extends Component {
@@ -15,11 +15,17 @@ export default class Login extends Component {
     }
   }
 
-  componenDidMount(){
+  componentDidMount(){
     this._isMounted = true;
+    AccessToken.getCurrentAccessToken().then((data) => {
+      if (data !== null) {
+        const { accessToken } = data
+        this.initUser(accessToken);
+      }
+    })
   }
 
-  componenDidUnmount(){
+  componentWillUnmount(){
     this._isMounted = false;
   }
 

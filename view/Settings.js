@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button, TouchableOpacity, Image, FlatList} from 'react-native';
 import Dimensions from 'Dimensions';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager, Profile, } from 'react-native-fbsdk';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
@@ -28,7 +29,25 @@ export default class Settings extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.itemText}>Settings Screen</Text>
+        <LoginButton
+          style={styles.loginButton}
+          publishPermissions={["publish_actions"]}
+          readPermissions={["public_profile"]}
+          onLoginFinished={
+            (error, result) => {
+              if (error) {
+                alert("Login failed with error: " + error.message);
+              } else if (result.isCancelled) {
+                alert("Login was cancelled");
+              } else {
+                AccessToken.getCurrentAccessToken().then((data) => {
+                  const { accessToken } = data
+                  this.initUser(accessToken)
+                })
+              }
+            }
+          }
+          onLogoutFinished={() => this.props.navigation.navigate("LoginScreen")}/>
       </View>
     );
   }
