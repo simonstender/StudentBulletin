@@ -30,7 +30,10 @@ export default class Courses extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.itemText}>Yo</Text>
+        <FlatList
+          data={[{key: 'a'}, {key: 'b'}]}
+          renderItem={({item}) => <Text>{item.key}</Text>}
+        />
       </View>
     );
   }

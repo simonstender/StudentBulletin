@@ -29,25 +29,7 @@ export default class Settings extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <LoginButton
-          style={styles.loginButton}
-          publishPermissions={["publish_actions"]}
-          readPermissions={["public_profile"]}
-          onLoginFinished={
-            (error, result) => {
-              if (error) {
-                alert("Login failed with error: " + error.message);
-              } else if (result.isCancelled) {
-                alert("Login was cancelled");
-              } else {
-                AccessToken.getCurrentAccessToken().then((data) => {
-                  const { accessToken } = data
-                  this.initUser(accessToken)
-                })
-              }
-            }
-          }
-          onLogoutFinished={() => this.props.navigation.navigate("LoginScreen")}/>
+        <Text style={styles.welcome}>Settings Screen</Text>
       </View>
     );
   }
