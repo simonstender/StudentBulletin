@@ -28,7 +28,7 @@ export default class SideMenu extends Component {
     fetch('https://graph.facebook.com/v2.5/me?fields=email,name,friends&access_token=' + token)
     .then((response) => response.json())
     .then((response) => {
-      fetch("http://83.191.175.55:8529/_db/StudentBulletinDB/login/users/"+response.id)
+      fetch("http://80.78.219.10:8529/_db/StudentBulletinDB/login/users/"+response.id)
       .then((response) => response.json())
       .then((response) => {
         this.setState({
@@ -56,7 +56,7 @@ export default class SideMenu extends Component {
       <TouchableOpacity
         style={styles.arrowIcon}
         onPress={() => this.props.navigation.closeDrawer()}>
-        <Icon name="arrow-left" size={40} color="#7DF0E8" />
+        <Icon name="long-arrow-left" size={40} color="#7DF0E8" />
       </TouchableOpacity>
 
         <View style={styles.settingsIcon}>

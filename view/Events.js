@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, TouchableOpacity, Image, FlatList} from 'react-native';
+import {Platform, StyleSheet, Text, View, Button, TouchableOpacity, Image, FlatList, ImageBackground} from 'react-native';
 import Dimensions from 'Dimensions';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -25,19 +25,22 @@ export default class Events extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Events</Text>
-      </View>
+      <ImageBackground source={require("../resources/GrayBackground.jpg")} style={styles.backgroundPicture}>
+
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundPicture: {
     flex: 1,
+    //resizeMode: "cover",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: '#282C34',
+    backgroundColor: "transparent",
+    width: "100%",
+    height: "100%",
   },
   bottomContainer: {
     justifyContent: "center",

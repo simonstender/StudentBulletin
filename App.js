@@ -147,6 +147,15 @@ const AppDrawerNavigator = createDrawerNavigator({
       color: '#FFFFFF'},
     },
     contentComponent: SideMenu,
+    navigationOptions: ({navigator}) => {
+      return{
+        headerRight:    <TouchableOpacity
+              style={styles.arrowIcon}
+              onPress={() => this.props.navigation.closeDrawer()}>
+              <Icon name="arrow-left" size={40} color="#7DF0E8" />
+            </TouchableOpacity>
+      }
+    }
 })
 
 const AppSwitchNavigator = createSwitchNavigator({

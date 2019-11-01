@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, Alert} from 'react-native';
+import {Platform, StyleSheet, Text, View, Button, Alert, ImageBackground} from 'react-native';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager, Profile, } from 'react-native-fbsdk';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -30,7 +30,7 @@ export default class Login extends Component {
   }
 
   createUser(id, name, school){
-    fetch("http://83.191.175.55:8529/_db/StudentBulletinDB/login/users", {
+    fetch("http://80.78.219.10:8529/_db/StudentBulletinDB/login/users", {
       method: "POST",
       headers: {
      'Accept': 'application/json',
@@ -53,7 +53,7 @@ export default class Login extends Component {
       const id = json.id
       var school = "";
       this.state.loggedIn = true
-      fetch("http://83.191.175.55:8529/_db/StudentBulletinDB/login/users/"+id, {
+      fetch("http://80.78.219.10:8529/_db/StudentBulletinDB/login/users/"+id, {
         method: "GET",
         headers: {
           "Accept": "application/json",
@@ -84,9 +84,8 @@ export default class Login extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ImageBackground source={require("../resources/Background.jpg")} style={styles.backgroundPicture}>
         <Text style={styles.text}>Student Bulletin</Text>
-        <Icon style={styles.icon} name="calendar" size={60} color="#7DF0E8" />
           <LoginButton
             style={styles.loginButton}
             publishPermissions={["publish_actions"]}
@@ -106,17 +105,20 @@ export default class Login extends Component {
               }
             }
             onLogoutFinished={() => alert("User logged out")}/>
-      </View>
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundPicture: {
     flex: 1,
+    //resizeMode: "cover",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: '#282C34',
+    backgroundColor: "transparent",
+    width: "100%",
+    height: "100%",
   },
   welcome: {
     fontSize: 20,
@@ -133,12 +135,15 @@ const styles = StyleSheet.create({
   text: {
     alignItems: "center",
     justifyContent: "center",
-    color: "#7DF0E8",
-    fontSize: 24,
+    color: "black",
+    textShadowColor: "white",
+    textDecorationColor: "white",
+    textShadowRadius: 8,
+    fontSize: 32,
     bottom: 150,
   },
   icon: {
     bottom: 100,
     position: "relative"
-  }
+  },
 });

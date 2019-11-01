@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, TouchableOpacity, Image, FlatList} from 'react-native';
+import {Platform, StyleSheet, Text, View, Button, TouchableOpacity, Image, FlatList, ImageBackground} from 'react-native';
 import Dimensions from 'Dimensions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -29,22 +29,22 @@ export default class Courses extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <FlatList
-          data={[{key: 'a'}, {key: 'b'}]}
-          renderItem={({item}) => <Text>{item.key}</Text>}
-        />
-      </View>
+      <ImageBackground source={require("../resources/GrayBackground.jpg")} style={styles.backgroundPicture}>
+
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundPicture: {
     flex: 1,
+    //resizeMode: "cover",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: '#282C34',
+    backgroundColor: "transparent",
+    width: "100%",
+    height: "100%",
   },
   bottomContainer: {
     justifyContent: "center",
